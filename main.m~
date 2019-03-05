@@ -1,0 +1,19 @@
+clear
+poscar=import_poscar('CONTCAR');
+up_atom=zeros(2^size(poscar.atomcount));
+ e=num2str(dec2bin(0:511));
+ U_all=[];
+ for ii=1:size(e,1)
+     for jj=1:9
+         ep(ii,jj)= str2num(e(ii,jj));
+     end
+ end
+pos=poscar.coords(1:poscar.atomcount(1, 1)+poscar.atomcount(2, 1)/5, :);%position of Si and first Ag
+pos_extend=[];
+for ii=-1:1
+    for jj=-1:1
+        pos_extend=[pos_extend; pos+repmat([ii , jj, 0], size(pos,1), 1)];
+    end
+end
+pos_extend=pos_extend*poscar.lattice;
+plot(pos_extend(:,1),pos_extend(:,2), 'o')
